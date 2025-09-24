@@ -1,0 +1,19 @@
+POST http://localhost:3827/api/bot-command
+Content-Type: application/json
+
+# {  
+    
+#      "prompt": "tip 0.01 SEI to ekete.eth"
+ 
+# }
+
+
+# {
+#          "prompt": "buy 0x95597eb8d227a7c4b4f5e807a815c5178ee6dbe1 for 0.01 SEI"
+# }
+
+
+{ 
+     "userId": "1881784875478630400",
+    "prompt": "SELL 50% of $MILLI"
+}

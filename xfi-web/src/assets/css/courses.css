@@ -1,0 +1,396 @@
+.container .courses h1 {
+  font-size: 6em;
+  color: var(--text);
+  font-family: "Onest", sans-serif;
+  color: var(--text);
+  margin: 0.5em auto;
+}
+
+.container .courses {
+  width: 100%;
+  min-height: 80vh;
+  padding: 0em 6em;
+  /* border: 2px solid; */
+}
+.container .courses .child {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6em;
+}
+
+.container .courses .child main {
+  width: 100%;
+  /* border: 2px solid; */
+}
+.container .courses .child main .formCont {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container .courses .child main form {
+  display: flex;
+  width: 400px;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0em 2em;
+  margin-top: 2em;
+  border-radius: 10px;
+  color: var(--text);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+.container .courses .child main form input {
+  color: var(--text);
+  width: calc(100% - 30px);
+  height: 40px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: "Onest", sans-serif;
+}
+.container .courses .child main form .icon {
+  font-size: 2.4em;
+  cursor: pointer;
+}
+
+.container .courses .child main .formCont ul {
+  display: flex;
+  align-items: center;
+  gap: 4em;
+  width: 30%;
+}
+.container .courses .child main .formCont ul li a {
+  font-size: 1.6em;
+  color: var(--text);
+  position: relative;
+  cursor: pointer;
+}
+.container .courses .child main .formCont ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0%;
+  bottom: -20%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: 500ms ease-in-out;
+  border: 2px solid var(--header);
+}
+.container .courses .child main .formCont ul li a.active {
+  color: var(--header);
+}
+.container .courses .child main .formCont ul li a.active::after {
+  transform: scaleX(1);
+}
+.container .courses .child main .formCont ul li a:hover {
+  color: var(--header);
+}
+.container .courses .child main .formCont ul li a:hover::after {
+  transform: scaleX(1);
+}
+.container .courses .child main .txtcont {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container .courses .child main h1 {
+  color: var(--text);
+  font-family: "Onest", sans-serif;
+  font-size: 2.5em;
+  margin: 1em 0em;
+  margin-top: 2em;
+}
+.container .courses .child main .rows {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+  margin-top: 4em;
+  /* border: 2px solid var(--header); */
+
+}
+.container .courses .child main .rows .box {
+  width: 350px;
+  height: auto;
+  padding: 2.5em 2.5em;
+  border-radius: 5px;
+  color: var(--text);
+}
+
+.container .courses .child main .rows .box .imageContainer {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 1em;
+  border-radius: 15px;
+  background: var(--header);
+  padding: 3em 2em;
+}
+.container .courses .child main .rows .box .imageContainer img {
+  object-fit: contain;
+  width: 80%;
+  height: 100px;
+}
+.container .courses .child main .rows .box .txtCont {
+  width: 85%;
+  min-height: 100px;
+  text-align: center;
+  padding: 2em 1em;
+  border-radius: 15px;
+  margin: 0em auto;
+  margin-top: -100px;
+  background: var(--bg);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.container .courses .child main .rows .box .txtCont h3 {
+  font-size: 2em;
+  margin: 0.5em auto;
+}
+
+.container .courses .child main .rows .box .txtCont p {
+  font-size: 1.4em;
+  margin: 0.5em auto;
+  margin-bottom: 2em;
+}
+.container .courses .child main .rows .box .txtCont .btn {
+  width: 60%;
+  /* display: flex; */
+  font-family: "Onest", sans-serif;
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--bg);
+  padding: 0.6em 1em;
+  justify-content: center;
+  background: var(--primary);
+  border-radius: 5px;
+  margin: 0em auto;
+  transition: background 500ms ease-in-out;
+}
+
+.container .courses .child main .rows .box .txtCont .downloadBtn {
+  width: 80%;
+  display: flex;
+  gap: 0.5em;
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--bg);
+  padding: 0.6em 0.8em;
+  align-items: center;
+  justify-content: center;
+  background: var(--header);
+  border-radius: 15px;
+  margin: 0em auto;
+  margin-top: 1.5em;
+  transition: background 500ms ease-in-out;
+  margin-bottom: -15%;
+  cursor: pointer;
+}
+.container .courses .child main .rows .box .btn:hover {
+  background: var(--header);
+}
+
+/* searchCont */
+.container .courses .child .searchCont {
+  width: 30%;
+  font-family: "Onest", sans-serif;
+  min-height: 500px;
+  border-radius: 10px;
+  margin-top: 8em;
+  padding: 3em 3em;
+  box-shadow: var(--bxshadow);
+  position: sticky;
+  top: 0%;
+  /* border: 1px solid var(--text); */
+}
+.container .courses .child .searchCont h1 {
+  color: var(--text);
+  font-family: "Onest", sans-serif;
+  font-size: 3em;
+  color: var(--text);
+}
+.container .courses .child h4.filter {
+  display: none;
+}
+.container .courses .child .searchCont .rows {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  margin: 2em auto;
+  padding-bottom: 2em;
+  margin-top: 2em;
+  /* box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2); */
+}
+.container .courses .child .searchCont .rows:last-child {
+  box-shadow: none;
+}
+.container .courses .child .searchCont .rows .btn {
+  font-size: 1.2em;
+  padding: 0.8em 1.8em;
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  border-radius: 20px;
+}
+.container .courses .child .searchCont .rows .select {
+  width: 100%;
+  cursor: pointer;
+}
+.container .courses .child .searchCont .rows .btn.active {
+  color: var(--bg);
+  background: var(--header);
+}
+
+.container .courses .child .searchCont button {
+  width: 80%;
+  color: var(--text);
+  font-family: "Onest", sans-serif;
+  font-size: 1.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1em auto;
+  color: var(--bg);
+  border: none;
+  outline: none;
+  background: var(--text);
+  cursor: pointer;
+  padding: 1em 1.8em;
+  box-shadow: var(--bxshadow);
+  border-radius: 20px;
+  transition: background 500ms ease-in-out;
+}
+.container .courses .child .searchCont button:hover {
+  color: var(--bg);
+  background: var(--header);
+}
+
+.container .courses .child .searchCont .cancelBtn {
+  display: none;
+}
+
+
+#mobile{
+  display: none;
+}
+
+#desktop{
+  display: flex;
+}
+
+
+/* ************MEDIA QUERRY********************** */
+
+/* ********@MOBILE********* */
+
+@media (max-width: 767px) {
+  #mobile{
+    display: flex;
+  }
+  #desktop{
+    display: none;
+  }
+  .container .courses {
+    padding: 0em 1em;
+    padding-top: 6em;
+  }
+
+  .container .courses h1 {
+    font-size: 3em;
+  }
+
+  .container .courses .child .txtcont {
+    display: flex;
+    align-items: center;
+  }
+  .container .courses .child h4.filter {
+    color: var(--text);
+    font-family: "Onest", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em;
+    font-size: 1.6em;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .container .courses {
+    padding: 0em 1em;
+  }
+  .container .courses .child {
+    gap: 4em;
+  }
+
+  .container .courses .child main {
+    width: 100%;
+  }
+  .container .courses .child main form {
+    height: 40px;
+  }
+  .container .courses .child main form input {
+    height: 30px;
+  }
+  .container .courses .child main form .icon {
+    font-size: 2em;
+    cursor: pointer;
+  }
+  /*  */
+  .container .courses .child main .formCont {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .container .courses .child main form {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    padding: 0em 2em;
+    margin-top: 1em;
+    border-radius: 5px;
+  }
+  
+  .container .courses .child main .formCont ul {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 4em;
+    margin-top: 1em;
+  }
+  .container .courses .child main .formCont ul li a {
+    font-size: 1.2em;
+    color: var(--text);
+    position: relative;
+    cursor: pointer;
+  }
+  .container .courses .child main .formCont ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0%;
+    bottom: -20%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: 500ms ease-in-out;
+    border: 2px solid var(--header);
+  }
+  /*  */
+  .container .courses .child .formCont {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+}

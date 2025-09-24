@@ -1,0 +1,157 @@
+.tutorDashboard {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 150px;
+  /* border: 2px solid var(--text); */
+}
+
+.tutorDashboard .sidebar {
+  width: 280px;
+  height: 100vh;
+  padding: 1em 1em;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  font-family: "Onest", sans-serif;
+  position: absolute;
+  z-index: 8;
+  position: fixed;
+  top: 0%;
+  padding-top: 1.5em;
+}
+.tutorDashboard .sidebar a img {
+  object-fit: contain;
+  width: 120px;
+}
+
+.tutorDashboard .sidebar ul {
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3em;
+  margin-top: 2em;
+  padding-left: 1em;
+  margin-top:4em;
+}
+
+
+.tutorDashboard .sidebar ul h1 {
+  font-family: "Onest", sans-serif;
+  font-size: 2em;
+  background: var(--linear);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2em;
+  padding-left: 0.5em;
+}
+.tutorDashboard .sidebar ul li {
+  width: 100%;
+}
+.tutorDashboard .sidebar ul li a {
+  color: var(--text);
+  font-size: 1.8em;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  padding: 0em 1em;
+  gap: 0.5em;
+  /* background: var(--text); */
+}
+.tutorDashboard .sidebar ul li a.active {
+  color: var(--bg);
+  background: var(--header);
+  border-radius: 20px;
+}
+.tutorDashboard .sidebar ul li a img {
+  object-fit: contain;
+  width: 20px;
+}
+
+/*  */
+.tutorDashboard .sidebar ul.last {
+  margin-top: auto;
+  margin-bottom: 0em;
+  gap: 2em;
+}
+.tutorDashboard .sidebar ul .subCont a {
+  color: var(--text);
+  font-family: "Onest", sans-serif;
+  font-size: 1.2em;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0em 0.5em;
+  gap: 0.5em;
+  transition: color 500ms ease-in-out;
+  margin-bottom: 1em;
+}
+.tutorDashboard .sidebar ul .subCont a .icon {
+  font-size: 1.4em;
+}
+.tutorDashboard .sidebar ul .subCont a:hover {
+  color: var(--header);
+}
+
+.tutorDashboard .tutorNav {
+  z-index: 7;
+  position: fixed;
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0%;
+  background: var(--bg);
+  padding: 1em 2em;
+  padding-top: 1.5em;
+  padding-left: 300px;
+  /* border: 2px solid var(--text); */
+}
+.tutorDashboard .tutorNav .header h1 {
+  color: var(--text);
+  font-size: 3em;
+}
+.tutorDashboard .tutorNav .header p {
+  color: var(--text);
+  font-size: 1.4em;
+  margin-top: 1em;
+}
+.tutorDashboard .tutorNav .dpCont {
+  font-family: "Onest", sans-serif;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-items: center;
+  color: var(--text);
+  gap: 1em;
+  /* border: 2px solid var(--text); */
+}
+.tutorDashboard .tutorNav .dpCont img {
+  object-fit: cover;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+}
+.tutorDashboard .tutorNav .dpCont h2 {
+  display: flex;
+  align-items: center;
+  font-family: "Audiowide", sans-serif;
+  gap: 0.2em;
+  font-size: 2.5em;
+  color: var(--header);
+}
+.tutorDashboard .child {
+  width: calc(100% - 280px);
+  height: calc(100vh - 150px);
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  /* border: 2px solid var(--text); */
+}
