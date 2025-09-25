@@ -8,6 +8,7 @@ import { WalletModule } from './wallet/wallet.module';
 import { XfiDexModule } from './sei-core/sei.module';
 import { AuthModule } from './auth/auth.module';
 import { IntentDetectionModule } from './intent-detection/intent-detection.module';
+import { ReefCoreModule } from './reef-core/reef-core.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { IntentDetectionModule } from './intent-detection/intent-detection.modul
     XfiDexModule,
     AuthModule,
     IntentDetectionModule,
+    ReefCoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

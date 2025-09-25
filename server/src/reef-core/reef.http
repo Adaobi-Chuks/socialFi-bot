@@ -1,0 +1,2 @@
+POST http://localhost:3827/api/reef-core/test?pk=0xYOUR_PRIVATE_KEY
+Content-Type: application/json
