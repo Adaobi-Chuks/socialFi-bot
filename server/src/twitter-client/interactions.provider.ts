@@ -16,11 +16,6 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 const MAX_TWEET_LENGTH = 280;
 
-// interface TweetData {
-//   text: string;
-//   media?: string; // URL to image (e.g., token logo)
-// }
-
 @Injectable()
 export class TwitterClientInteractions {
   private readonly logger = new Logger(TwitterClientInteractions.name);
@@ -32,17 +27,6 @@ export class TwitterClientInteractions {
     private readonly parseBotCommandService: ParseCommandService,
     @InjectModel(Memory.name) private readonly memoryModel: Model<Memory>,
   ) {}
-
-  // async start() {
-  //   const handleTwitterInteractionsLoop = () => {
-  //     this.handleTwitterInteractions();
-  //     setTimeout(
-  //       handleTwitterInteractionsLoop,
-  //       Number(twitterConfig.TWITTER_POLL_INTERVAL || 30) * 1000, // Default to 2 minutes
-  //     );
-  //   };
-  //   handleTwitterInteractionsLoop();
-  // }
 
   async start() {
     const pollInterval =
@@ -181,12 +165,6 @@ export class TwitterClientInteractions {
     }
 
     this.logger.log(`Processing Tweet: , ${tweet.id}`);
-    //   const formatTweet = (tweet: Tweet) => {
-    //     return `  ID: ${tweet.id}
-    // From: ${tweet.name} (@${tweet.username})
-    // Text: ${tweet.text}`;
-    //   };
-    // const currentPost = formatTweet(tweet);
 
     this.logger.debug(`Thread: , ${thread}`);
     const formattedConversation = thread

@@ -27,14 +27,13 @@ interface Receiver {
 }
 
 // --- Helper Data ---
-const NATIVE_TOKENS = ['eth', 'sei'];
-const STABLE_TOKENS = ['usdc', 'usdt'];
+const NATIVE_TOKENS = 'reef';
 
 @Injectable()
 export class ParseCommandService {
   private readonly logger = new Logger(ParseCommandService.name);
   private ethProvider: ethers.JsonRpcProvider;
-  private provider = new ethers.JsonRpcProvider(process.env.SEI_RPC);
+  private provider = new ethers.JsonRpcProvider(process.env.REEF_RPC);
   constructor(
     private readonly walletService: WalletService,
     private readonly defiSeiService: XfiDefiSeiService,

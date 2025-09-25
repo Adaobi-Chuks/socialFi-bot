@@ -56,8 +56,8 @@ export class TwitterClientDirectMessage {
           this.twitterClientBase.profile.id,
         );
 
-      //   console.log('dm   :');
-      //   console.dir(dm.conversations, { depth: null, colors: true });
+      console.log('dm   :');
+      console.dir(dm.conversations, { depth: null, colors: true });
 
       const now = Date.now(); // Current timestamp in milliseconds
       const fiveMinutesAgo = now - 5 * 60 * 1000;
@@ -126,9 +126,14 @@ export class TwitterClientDirectMessage {
         return;
       }
       console.log('this is response :', defiResponse);
+
+      // return await this.twitterClientBase.sendDirectMessage(
+      //   conversation.senderId,
+      //   defiResponse,
+      // );
       return await this.twitterClientBase.sendDirectMessage(
         conversation.senderId,
-        defiResponse,
+        'Welcome to reef xBot',
       );
     } catch (error) {
       console.log(error);
