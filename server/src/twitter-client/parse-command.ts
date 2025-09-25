@@ -5,10 +5,9 @@ import { Transaction } from 'src/database/schemas/transactions.schema';
 import { User } from 'src/database/schemas/user.schema';
 import { WalletService } from 'src/wallet/wallet.service';
 import { ethers } from 'ethers';
-import { XfiDefiEthereumService } from 'src/xfi-defi/xfi-defi-ethereum.service';
 import { TwitterClientBase } from './base.provider';
 import { UserService } from './user.service';
-import { XfiDefiSeiService } from 'src/reef-core/reef-core.service';
+import { XfiDefiSeiService } from 'src/sei-core/sei.service';
 import { IntentDetectionService } from 'src/intent-detection/intent-detection.service';
 
 type TokenType = 'native' | 'stable' | 'token';
@@ -38,7 +37,6 @@ export class ParseCommandService {
   private provider = new ethers.JsonRpcProvider(process.env.SEI_RPC);
   constructor(
     private readonly walletService: WalletService,
-    private readonly defiEthereumService: XfiDefiEthereumService,
     private readonly defiSeiService: XfiDefiSeiService,
     private readonly twitterClientBase: TwitterClientBase,
     private readonly userService: UserService,

@@ -6,7 +6,7 @@ import {
   TransactionSchema,
 } from 'src/database/schemas/transactions.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { XfiDefiSeiService } from './reef-core.service';
+import { XfiDefiSeiService } from './sei.service';
 
 @Module({
   imports: [

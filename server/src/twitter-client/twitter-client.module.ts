@@ -8,7 +8,7 @@ import { TwitterClientInteractions } from './interactions.provider';
 import { WalletModule } from 'src/wallet/wallet.module';
 import { User, UserSchema } from 'src/database/schemas/user.schema';
 import { ParseCommandService } from './parse-command';
-import { XfiDexModule } from 'src/reef-core/reef-core.module';
+import { XfiDexModule } from 'src/sei-core/sei.module';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import {

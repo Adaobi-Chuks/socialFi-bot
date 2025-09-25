@@ -5,7 +5,7 @@ import { TwitterApi } from 'twitter-api-v2';
 import { ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/auth.guard';
 import { FilteredTokenResponseDto, UserResponseDto } from './dto/response.dto';
-import { XfiDefiSeiService } from 'src/reef-core/reef-core.service';
+import { XfiDefiSeiService } from 'src/sei-core/sei.service';
 
 @Controller('users')
 export class UserController {
