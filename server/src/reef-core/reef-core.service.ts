@@ -76,6 +76,7 @@ export class ReefCoreService {
             amount,
             hash: tx.hash,
             blockNumber: receipt.blockNumber,
+            blockHash: receipt.blockHash,
             fee
         };
     }
