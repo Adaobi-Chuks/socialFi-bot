@@ -6,8 +6,7 @@ import {
   TransactionSchema,
 } from 'src/database/schemas/transactions.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { XfiDefiEthereumService } from './xfi-defi-ethereum.service';
-import { XfiDefiSeiService } from './xfi-defi-sei.service';
+import { XfiDefiSeiService } from './reef-core.service';
 
 @Module({
   imports: [
@@ -17,7 +16,7 @@ import { XfiDefiSeiService } from './xfi-defi-sei.service';
       { name: Transaction.name, schema: TransactionSchema },
     ]),
   ],
-  exports: [XfiDefiEthereumService, XfiDefiSeiService],
-  providers: [XfiDefiEthereumService, XfiDefiSeiService],
+  exports: [XfiDefiSeiService],
+  providers: [XfiDefiSeiService],
 })
 export class XfiDexModule {}

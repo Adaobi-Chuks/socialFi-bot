@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 import { XfiDefiEthereumService } from 'src/xfi-defi/xfi-defi-ethereum.service';
 import { TwitterClientBase } from './base.provider';
 import { UserService } from './user.service';
-import { XfiDefiSeiService } from 'src/xfi-defi/xfi-defi-sei.service';
+import { XfiDefiSeiService } from 'src/reef-core/reef-core.service';
 import { IntentDetectionService } from 'src/intent-detection/intent-detection.service';
 
 type TokenType = 'native' | 'stable' | 'token';
