@@ -221,7 +221,7 @@ export class ParseCommandService {
 
     const intent = await this.intentService.aiIntentDetector(normalized);
     console.log('intent :', intent);
-
+    console.log(platform);
     try {
       this.logger.log(tweet);
       let user = await this.userModel.findOne({ userId });
@@ -397,7 +397,7 @@ export class ParseCommandService {
     );
 
     return {
-      response: `‼️Never share your private key or seed phrase with anyone‼️\n For instruction on how to add the Reef Palegia network to you wallet, check out this page https://www.notion.so/reefchain/Reef-at-Web3Conf-Enugu-2757048bea5480cba429fb7b7d9a6f89?source=copy_link`,
+      response: `‼️Never share your private key or seed phrase with anyone‼️\n For instruction on how to add the Reef Palegia network to you wallet, check out this page https://www.notion.so/reefchain/Reef-at-Web3Conf-Enugu-2757048bea5480cba429fb7b7d9a6f89?source=copy_link\n private key 👇`,
       wallet: `${decryptedEvmWallet.privateKey}`,
     };
   }
