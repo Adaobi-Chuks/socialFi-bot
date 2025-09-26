@@ -414,7 +414,7 @@ export class ParseCommandService {
   ): string {
     const num = Number(balance);
 
-    if (isNaN(num) || num === 0) return '0 ETH';
+    if (isNaN(num) || num === 0) return '0';
 
     // Adjust precision dynamically
     let decimals;
