@@ -271,6 +271,11 @@ export class ParseCommandService {
         const detail = await this.exportWallet(user);
 
         return detail;
+      } else if (intent.intent === 'ADDRESS' && user) {
+        return {
+          response: `Your wallet 👇`,
+          wallet: `${user.walletAddress}`,
+        };
       } else if (intent.intent === 'UNKNOWN' && platform !== 'twitter-dm') {
         return;
       }
