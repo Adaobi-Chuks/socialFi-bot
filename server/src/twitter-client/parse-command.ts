@@ -384,8 +384,9 @@ export class ParseCommandService {
     result += `Chain: Reef Pelagia\n`;
     result += `Address: ${address}\n`;
 
-    const formattedAmount = Number(balance).toPrecision(4);
-    result += `${formattedAmount} - REEF\n`;
+    console.log('my balance :', balance);
+    // const formattedAmount = Number(balance).toPrecision(4);
+    result += `${balance} - REEF\n`;
 
     return result.trim(); // remove last extra newline
   }
