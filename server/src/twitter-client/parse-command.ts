@@ -237,8 +237,8 @@ export class ParseCommandService {
           true,
         );
         if (intent.intent === 'ACTIVATE') {
-          let response = `${intent.followup ?? ''}\n`;
-          response += `Wallet: 👇`;
+          const response = `Wallet: 👇`;
+
           return { response, wallet: user.walletAddress };
         }
         return { response: 'Your wallet: 👇', wallet: user.walletAddress };
@@ -258,10 +258,7 @@ export class ParseCommandService {
           user.walletAddress,
         );
 
-        const formatedBalance = this.formatBalances(
-          balance.formatted,
-          balance.address,
-        );
+        const formatedBalance = this.formatBalances(balance.formatted);
         return formatedBalance;
       } else if (
         intent.intent === 'EXPORT' &&
@@ -384,14 +381,12 @@ export class ParseCommandService {
   }
 
   // to formate directMessge balance response
-  private formatBalances(balance, address: string): string {
-    let result = 'BALANCE:\n\n';
+  private formatBalances(balance): string {
+    let result = `Balance: ${balance} REEF\n\n`;
     result += `Chain: Reef Pelagia\n`;
-    result += `Address: ${address}\n`;
 
     console.log('my balance :', balance);
     // const formattedAmount = Number(balance).toPrecision(4);
-    result += `${balance} - REEF\n`;
 
     return result.trim(); // remove last extra newline
   }
