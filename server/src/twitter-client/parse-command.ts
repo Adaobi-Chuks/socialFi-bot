@@ -5,11 +5,9 @@ import { Transaction } from 'src/database/schemas/transactions.schema';
 import { User } from 'src/database/schemas/user.schema';
 import { WalletService } from 'src/wallet/wallet.service';
 import { ethers } from 'ethers';
-import { XfiDefiEthereumService } from 'src/xfi-defi/xfi-defi-ethereum.service';
 import { TwitterClientBase } from './base.provider';
-import { UserService } from './user.service';
-import { XfiDefiSeiService } from 'src/reef-core/reef-core.service';
 import { IntentDetectionService } from 'src/intent-detection/intent-detection.service';
+import { ReefCoreService } from 'src/reef-core/reef-core.service';
 
 type TokenType = 'native' | 'stable' | 'token';
 type ReceiverType = 'wallet' | 'ens' | 'username' | 'sns';
@@ -28,20 +26,17 @@ interface Receiver {
 }
 
 // --- Helper Data ---
-const NATIVE_TOKENS = ['eth', 'sei'];
-const STABLE_TOKENS = ['usdc', 'usdt'];
+const NATIVE_TOKENS = ['reef'];
 
 @Injectable()
 export class ParseCommandService {
   private readonly logger = new Logger(ParseCommandService.name);
   private ethProvider: ethers.JsonRpcProvider;
-  private provider = new ethers.JsonRpcProvider(process.env.SEI_RPC);
+  private provider = new ethers.JsonRpcProvider(process.env.REEF_RPC);
   constructor(
     private readonly walletService: WalletService,
-    private readonly defiEthereumService: XfiDefiEthereumService,
-    private readonly defiSeiService: XfiDefiSeiService,
+    private readonly reefCoreService: ReefCoreService,
     private readonly twitterClientBase: TwitterClientBase,
-    private readonly userService: UserService,
     @InjectModel(User.name)
     readonly userModel: Model<User>,
     private readonly intentService: IntentDetectionService,
@@ -62,10 +57,6 @@ export class ParseCommandService {
 
     if (parts.length === 2 && parts[1] === 'eth') {
       return 'ethereum'; // e.g., 'dami.eth'
-    }
-
-    if (parts.length === 2 && parts[1] === 'sei') {
-      return 'sei'; // e.g., 'dami.sei'
     }
 
     return 'unknown';
@@ -110,21 +101,19 @@ export class ParseCommandService {
   detectChain(chainOrToken: string): string {
     const normalized = chainOrToken.toLowerCase();
 
-    if (normalized.includes('sei')) return 'sei';
+    if (normalized.includes('reef')) return 'reef';
     if (/^0x[a-fA-F0-9]{40}$/.test(chainOrToken)) return 'ethereum'; // EVM
-    return 'sei'; // Default fallback
+    return 'reef'; // Default fallback
   }
 
   detectTokenType(value: string): TokenType {
     const lower = value.toLowerCase();
     if (NATIVE_TOKENS.includes(lower)) return 'native';
-    if (STABLE_TOKENS.includes(lower)) return 'stable';
     return 'token';
   }
 
   detectReceiverType(value: string): ReceiverType {
     if (value.endsWith('.eth') || value.endsWith('.base.eth')) return 'ens';
-    if (value.endsWith('.sei')) return 'sns';
     if (value.startsWith('@')) return 'username';
     return 'wallet';
   }
@@ -192,20 +181,20 @@ export class ParseCommandService {
   ) {
     console.log(`Sending ${amount} native on ${chain} to ${to}`);
     try {
-      if (chain == 'sei') {
+      if (chain == 'reef') {
         const data: Partial<Transaction> = {
           userId: user.userId,
           transactionType: 'send',
-          chain: 'sei',
+          chain: 'reef',
           amount: amount,
-          token: { address: 'sei', tokenType: 'native' },
+          token: { address: 'reef', tokenType: 'native' },
           receiver: { value: to, receiverType: 'wallet' },
           meta: {
             platform: platform,
             originalCommand: originalCommand,
           },
         };
-        const response = await this.defiSeiService.sendSEI(
+        const response = await this.reefCoreService.sendReef(
           user,
           amount,
           to,
@@ -215,126 +204,6 @@ export class ParseCommandService {
         );
         return response;
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async handleERC20Send(
-    chain: string,
-    token: string,
-    to: string,
-    amount: string,
-    user: User,
-    originalCommand: string,
-    platform: Platform = 'twitter',
-    isUSD?: boolean,
-    ensOrUsername?: string,
-  ) {
-    console.log(`Sending ${amount} stable ${token} on ${chain} to ${to}`);
-
-    try {
-      if (chain == 'sei') {
-        const data: Partial<Transaction> = {
-          userId: user.userId,
-          transactionType: 'send',
-          chain: 'sei',
-          amount: amount,
-          token: { address: token, tokenType: 'stable' },
-          receiver: { value: to, receiverType: 'wallet' },
-          meta: {
-            platform: platform,
-            originalCommand: originalCommand,
-          },
-        };
-        const response = await this.defiSeiService.sendERC20(
-          user,
-          token,
-          amount,
-          to,
-          data,
-          isUSD ? isUSD : false,
-          ensOrUsername ? ensOrUsername : null,
-        );
-        return response;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async handleBuy(
-    chain: string,
-    token: string,
-    nativeAmount: string,
-    user: User,
-    originalCommand: string,
-    platform: Platform = 'twitter',
-    isUSD?: boolean,
-    inputToken?: string,
-  ) {
-    try {
-      const data: Partial<Transaction> = {
-        userId: user.userId,
-        transactionType: 'buy',
-        chain: 'sei',
-        amount: isUSD ? `$${nativeAmount}` : nativeAmount,
-        token: { address: 'sei', tokenType: 'native' },
-        tokenIn: `${inputToken}` || 'sei',
-        tokenOut: token,
-        meta: {
-          platform: platform,
-          originalCommand: originalCommand,
-        },
-      };
-
-      const response = await this.defiSeiService.buyToken(
-        token,
-        nativeAmount,
-        user,
-        data,
-        isUSD ? isUSD : false,
-        inputToken ? inputToken : null,
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async handleSell(
-    chain: string,
-    token: string,
-    amount: string,
-    user: User,
-    originalCommand: string,
-    platform: Platform = 'twitter',
-    isUSD?: boolean,
-  ) {
-    console.log(`Selling ${amount}% of ${token}`);
-    try {
-      const data: Partial<Transaction> = {
-        userId: user.userId,
-        transactionType: 'buy',
-        chain: 'sei',
-        amount: isUSD ? `$${amount}` : amount,
-        token: { address: token, tokenType: 'token' },
-        tokenIn: token,
-        tokenOut: 'sei',
-        meta: {
-          platform: platform,
-          originalCommand: originalCommand,
-        },
-      };
-      const response = await this.defiSeiService.sellToken(
-        token,
-        amount,
-        user,
-        originalCommand,
-        data,
-        isUSD ? isUSD : false,
-      );
-      return response;
     } catch (error) {
       console.log(error);
     }
@@ -352,34 +221,72 @@ export class ParseCommandService {
 
     const intent = await this.intentService.aiIntentDetector(normalized);
     console.log('intent :', intent);
-
-    const appUrl = process.env.APP_URL;
-
+    console.log(platform);
     try {
       this.logger.log(tweet);
-      const user = await this.userModel.findOne({ userId });
-      if (intent.intent === 'UNKNOWN' && platform === 'twitter') {
+      let user = await this.userModel.findOne({ userId });
+      if (
+        (!user && platform === 'twitter-dm') ||
+        intent.intent === 'ACTIVATE'
+      ) {
+        user = await this.getOrCreateUser(
+          {
+            id: userId,
+            username,
+          },
+          true,
+        );
+        if (intent.intent === 'ACTIVATE') {
+          const response = `Wallet: 👇`;
+
+          return { response, wallet: user.walletAddress };
+        }
+        return { response: 'Your wallet: 👇', wallet: user.walletAddress };
+      } else if (intent.intent === 'UNKNOWN' && platform === 'twitter-dm') {
         console.log('Unknown intent :', normalized);
-        return;
-      }
-      if (!user || !user.isActive) {
-        return `Please go to ${appUrl} create/activate your account to use this bot`;
+        return `${intent.followup}`;
+      } else if (!user || (!user.isActive && platform !== 'twitter-dm')) {
+        return `Please send me a direct Message to create/activate your account`;
       } else if (intent.intent === 'CHECK_BALANCE ' && platform === 'twitter') {
-        return `Please go to ${appUrl} to check your account balance`;
-      } else if (intent.intent === 'UNKNOWN' && platform === 'twitter') {
-        return `Hi, if you’re trying to use a command or just curious how I work, you can check out the terminal at ${appUrl} or the available prompts and formats here:👉  ${process.env.PROMPT_DOC}`;
+        return `Please send me a direct Message  to check your account balance`;
+      } else if (
+        intent.intent === 'CHECK_BALANCE' &&
+        platform === 'twitter-dm' &&
+        user
+      ) {
+        const balance = await this.reefCoreService.getBalance(
+          user.walletAddress,
+        );
+
+        const formatedBalance = this.formatBalances(balance.formatted);
+        return formatedBalance;
+      } else if (
+        intent.intent === 'EXPORT' &&
+        platform === 'twitter-dm' &&
+        user
+      ) {
+        const detail = await this.exportWallet(user);
+
+        return detail;
+      } else if (intent.intent === 'ADDRESS' && user) {
+        return {
+          response: `Your wallet 👇`,
+          wallet: `${user.walletAddress}`,
+        };
+      } else if (intent.intent === 'UNKNOWN' && platform !== 'twitter-dm') {
+        return;
       }
 
       let to: Receiver;
       const action = intent.intent.toLowerCase();
-      const chain = 'sei';
+      const chain = 'reef';
       const amount = intent.details?.amount
         ? intent.details.amount.toString()
         : null;
       const isUSD = intent.details?.amountType === 'USD';
       const token: Token = {
         value: intent.details?.token || null,
-        type: this.detectTokenType(intent.details?.token || 'sei'),
+        type: this.detectTokenType(intent.details?.token || 'reef'),
       };
       const inputToken = intent.details?.buy?.spendToken || null;
       const receiverValue = intent.details?.receiver || null;
@@ -421,6 +328,7 @@ export class ParseCommandService {
       switch (action) {
         case 'send_token':
         case 'tip_token':
+        case 'drop_token':
           console.log('to :', to);
           if (!to || !to.value || !to.type) return;
           if (!amount || amount === 0) return;
@@ -438,51 +346,6 @@ export class ParseCommandService {
 
             return nativeResponse;
           }
-
-          if (token.type === 'stable' || token.type === 'token') {
-            const stableResponse = await this.handleERC20Send(
-              chain,
-              token.value,
-              to.address,
-              amount,
-              user,
-              tweet,
-              platform,
-              isUSD,
-              to.type !== 'wallet' ? to.value : null,
-            );
-            return stableResponse;
-          }
-
-        case 'buy_token':
-          if (!intent.details?.buy?.tokenToBuy) return;
-          if (!intent.details?.buy?.amountToSpend) return;
-
-          return this.handleBuy(
-            chain,
-            intent.details.buy.tokenToBuy,
-            intent.details.buy.amountToSpend,
-            user,
-            tweet,
-            platform,
-            intent.details.buy.amountType === 'USD',
-            inputToken,
-          );
-
-        case 'sell_token':
-          if (!intent.details?.sell?.tokenToSell) return;
-          if (!intent.details?.sell?.sellPercentage) return;
-          return this.handleSell(
-            chain,
-            intent.details.sell.tokenToSell,
-            intent.details.sell.sellPercentage
-              ? `${intent.details.sell.sellPercentage.toString()}%`
-              : null,
-            user,
-            tweet,
-            platform,
-            intent.details.amountType === 'USD',
-          );
       }
     } catch (error) {
       console.log(error);
@@ -517,39 +380,52 @@ export class ParseCommandService {
     return existingUser;
   }
 
-  private normalizeChain = (raw) => {
-    if (!raw) return null;
-    const value = raw.toLowerCase();
-    if (value === 'sei' || value === 'sei') return 'sei';
-    if (value === 'eth' || value === 'ethereum') return 'ethereum';
-    if (value === 'sei') return 'sei';
-    return null;
-  };
-
   // to formate directMessge balance response
-  private formatBalances(balances: Record<string, any[]>): string {
-    let result = 'BALANCE:\n\n';
+  private formatBalances(balance): string {
+    let result = `Balance: ${this.formatReefBalance(balance)} REEF\n\n`;
+    result += `Chain: Reef Pelagia\n`;
 
-    for (const [chain, tokens] of Object.entries(balances)) {
-      result += `chain: ${chain}\n`;
-
-      for (const token of tokens) {
-        const amountNum =
-          typeof token.amount === 'number'
-            ? token.amount
-            : parseFloat(token.amount);
-
-        const formattedAmount = Number(amountNum).toPrecision(4);
-        result += `${formattedAmount} - ${token.tokenSymbol}\n`;
-      }
-
-      result += `\n`; // extra newline between chains
-    }
+    console.log('my balance :', balance);
+    // const formattedAmount = Number(balance).toPrecision(4);
 
     return result.trim(); // remove last extra newline
   }
 
+  async exportWallet(user: User) {
+    const decryptedEvmWallet = await this.walletService.decryptEvmWallet(
+      process.env.DYNAMIC_WALLET_SECRET!,
+      user.walletDetails,
+    );
+
+    return {
+      response: `‼️Never share your private key or seed phrase with anyone‼️\n For instruction on how to add the Reef Palegia network to you wallet, check out this page https://www.notion.so/reefchain/Reef-at-Web3Conf-Enugu-2757048bea5480cba429fb7b7d9a6f89?source=copy_link\n private key 👇`,
+      wallet: `${decryptedEvmWallet.privateKey}`,
+    };
+  }
+
   removeFirstMention(str: string): string {
     return str.replace(/^@\S+\s*/, '').trim();
+  }
+
+  formatReefBalance(
+    balance: string | number,
+    minDecimals = 4,
+    maxDecimals = 8,
+  ): string {
+    const num = Number(balance);
+
+    if (isNaN(num) || num === 0) return '0';
+
+    // Adjust precision dynamically
+    let decimals;
+    if (num >= 1) {
+      decimals = minDecimals; // e.g. 1.2345 ETH
+    } else if (num >= 0.0001) {
+      decimals = Math.min(maxDecimals, 6); // e.g. 0.000123 ETH
+    } else {
+      decimals = maxDecimals; // very tiny balance
+    }
+
+    return `${num.toFixed(decimals)}`;
   }
 }

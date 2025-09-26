@@ -8,9 +8,7 @@ import { TwitterClientInteractions } from './interactions.provider';
 import { WalletModule } from 'src/wallet/wallet.module';
 import { User, UserSchema } from 'src/database/schemas/user.schema';
 import { ParseCommandService } from './parse-command';
-import { XfiDexModule } from 'src/reef-core/reef-core.module';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+
 import {
   Transaction,
   TransactionSchema,
@@ -24,23 +22,22 @@ import { Cookies, CookiesSchema } from 'src/database/schemas/cookie.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
 import { IntentDetectionModule } from 'src/intent-detection/intent-detection.module';
+import { ReefCoreModule } from 'src/reef-core/reef-core.module';
 
 @Module({
   imports: [
     JwtModule,
     HttpModule,
-    MongooseModule.forFeature([{ name: Memory.name, schema: MemorySchema }]),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MongooseModule.forFeature([
+      { name: Memory.name, schema: MemorySchema },
+      { name: User.name, schema: UserSchema },
       { name: Transaction.name, schema: TransactionSchema },
-    ]),
-    MongooseModule.forFeature([
       { name: DirectMessage.name, schema: DirectMessageSchema },
+      { name: Cookies.name, schema: CookiesSchema },
     ]),
-    MongooseModule.forFeature([{ name: Cookies.name, schema: CookiesSchema }]),
     WalletModule,
-    XfiDexModule,
     IntentDetectionModule,
+    ReefCoreModule,
   ],
   providers: [
     TwitterClientService,
@@ -48,9 +45,7 @@ import { IntentDetectionModule } from 'src/intent-detection/intent-detection.mod
     TwitterClientInteractions,
     TwitterClientDirectMessage,
     ParseCommandService,
-    UserService,
   ],
-  controllers: [TwitterClientController, UserController],
-  exports: [UserService],
+  controllers: [TwitterClientController],
 })
 export class TwitterClientModule {}

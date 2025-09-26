@@ -56,8 +56,8 @@ export class TwitterClientDirectMessage {
           this.twitterClientBase.profile.id,
         );
 
-      //   console.log('dm   :');
-      //   console.dir(dm.conversations, { depth: null, colors: true });
+      console.log('dm   :');
+      console.dir(dm.conversations, { depth: null, colors: true });
 
       const now = Date.now(); // Current timestamp in milliseconds
       const fiveMinutesAgo = now - 5 * 60 * 1000;
@@ -124,8 +124,22 @@ export class TwitterClientDirectMessage {
 
       if (!defiResponse) {
         return;
+      } else if (typeof defiResponse === 'object') {
+        await this.twitterClientBase.sendDirectMessage(
+          conversation.senderId,
+          defiResponse.response,
+        );
+        return await this.twitterClientBase.sendDirectMessage(
+          conversation.senderId,
+          defiResponse.wallet,
+        );
       }
       console.log('this is response :', defiResponse);
+
+      // return await this.twitterClientBase.sendDirectMessage(
+      //   conversation.senderId,
+      //   defiResponse,
+      // );
       return await this.twitterClientBase.sendDirectMessage(
         conversation.senderId,
         defiResponse,

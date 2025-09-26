@@ -1,27 +1,22 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TwitterClientModule } from './twitter-client/twitter-client.module';
+// import { TwitterClientModule } from './twitter-client/twitter-client.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { DatabaseModule } from './database/database.module';
 import { WalletModule } from './wallet/wallet.module';
-import { XfiDexModule } from './reef-core/reef-core.module';
-import { AuthModule } from './auth/auth.module';
 import { IntentDetectionModule } from './intent-detection/intent-detection.module';
+import { ReefCoreModule } from './reef-core/reef-core.module';
+import { TwitterClientModule } from './twitter-client/twitter-client.module';
 
 @Module({
   imports: [
     CacheModule.register({ isGlobal: true }),
     WalletModule,
     DatabaseModule,
-    // TwitterClientModule,
-    // XfiAgentModule,
-    // XfiDexModule,
     TwitterClientModule,
-    // XfiAgentModule,
-    XfiDexModule,
-    AuthModule,
     IntentDetectionModule,
+    ReefCoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

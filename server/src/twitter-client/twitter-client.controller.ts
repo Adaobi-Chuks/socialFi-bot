@@ -1,8 +1,7 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ParseCommandService } from './parse-command';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { CommandDto } from './dto/command.dto';
-import { JwtAuthGuard } from 'src/auth/guards/auth.guard';
 import { PromptResponseDto } from './dto/response.dto';
 import { IntentDetectionService } from 'src/intent-detection/intent-detection.service';
 
@@ -16,7 +15,7 @@ export class TwitterClientController {
   // @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Send Command to the bot' })
   @ApiOkResponse({ type: PromptResponseDto })
-  async prompt(@Body() commandDto: CommandDto, @Req() req: any) {
+  async prompt(@Body() commandDto: CommandDto) {
     // const userId = req.user.sub;
     // if (userId !== commandDto.userId) {
     //   return { error: 'Unauthorized user' };
@@ -39,7 +38,7 @@ export class TwitterClientController {
       commandDto.prompt,
       commandDto.userId,
       undefined,
-      'twitter',
+      commandDto.platform,
     );
 
     return data;

@@ -28,11 +28,9 @@ export class User {
   isActive: boolean;
 
   @Prop({
-    type: [String],
-    enum: ['sei', 'ethereum'],
-    default: ['sei'],
+    default: 'reef',
   })
-  chains: string[];
+  chains: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

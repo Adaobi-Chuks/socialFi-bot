@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
+import { ReefCoreService } from './reef-core.service';
+import { ReefCoreController } from './reef-core.controller';
 import { WalletModule } from 'src/wallet/wallet.module';
-import { HttpModule } from '@nestjs/axios';
+import { MongooseModule } from '@nestjs/mongoose';
 import {
   Transaction,
   TransactionSchema,
 } from 'src/database/schemas/transactions.schema';
-import { MongooseModule } from '@nestjs/mongoose';
-import { XfiDefiSeiService } from './reef-core.service';
 
 @Module({
   imports: [
     WalletModule,
-    HttpModule,
     MongooseModule.forFeature([
       { name: Transaction.name, schema: TransactionSchema },
     ]),
   ],
-  exports: [XfiDefiSeiService],
-  providers: [XfiDefiSeiService],
+  providers: [ReefCoreService],
+  controllers: [ReefCoreController],
+  exports: [ReefCoreService],
 })
-export class XfiDexModule {}
+export class ReefCoreModule {}

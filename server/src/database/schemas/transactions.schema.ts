@@ -8,15 +8,15 @@ export class Transaction {
   @Prop({ type: String, ref: 'User', required: true })
   userId: string;
 
-  @Prop({ type: String, enum: ['buy', 'sell', 'send', 'tip'], required: true })
-  transactionType: 'buy' | 'sell' | 'send' | 'tip' | 'swap';
+  @Prop({ type: String, enum: ['send', 'tip', 'drop'], required: true })
+  transactionType: 'send' | 'tip' | 'drop';
 
   @Prop({
     type: String,
-    enum: ['sei', 'ethereum', 'base', 'arbitrum', 'mantle'],
+    enum: ['reef', 'ethereum'],
     required: true,
   })
-  chain: 'sei' | 'ethereum' | 'base' | 'arbitrum' | 'mantle';
+  chain: 'reef' | 'ethereum';
 
   @Prop({ required: true })
   amount: string;
@@ -60,6 +60,15 @@ export class Transaction {
 
   @Prop({ type: String })
   txHash?: string;
+
+  @Prop({ type: String })
+  blockNumber?: string;
+
+  @Prop({ type: String })
+  blockHash?: string;
+
+  @Prop({ type: String })
+  gasFee?: string;
 
   // @Prop({
   //   type: String,
