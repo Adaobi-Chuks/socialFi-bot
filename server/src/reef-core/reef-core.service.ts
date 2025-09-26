@@ -151,7 +151,7 @@ export class ReefCoreService {
           gasFee: fee,
         }).save();
       } catch {}
-      return `Sent ${amount} $REEF to ${ensOrUsername ? ensOrUsername : reciever}\n\nhttps://dev.papi.how/explorer/${receipt.blockHash}#networkId=localhost&endpoint=ws%3A%2F%2F34.123.142.246%3A9944`;
+      return `Sent ${amount} $REEF to ${ensOrUsername ? ensOrUsername : reciever}\n\n hash: ${receipt.hash}`;
     }
     return;
   }
