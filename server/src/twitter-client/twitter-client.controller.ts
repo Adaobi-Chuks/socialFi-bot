@@ -38,7 +38,7 @@ export class TwitterClientController {
       commandDto.prompt,
       commandDto.userId,
       undefined,
-      'twitter',
+      commandDto.platform,
     );
 
     return data;

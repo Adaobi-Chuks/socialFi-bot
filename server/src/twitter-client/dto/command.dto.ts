@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+export type Platform = 'twitter' | 'twitter-dm' | 'terminal';
+
 export class CommandDto {
   @ApiProperty({
     type: String,
@@ -16,4 +18,12 @@ export class CommandDto {
     description: 'bot prompt command',
   })
   prompt: string;
+
+  @ApiProperty({
+    enum: ['twitter', 'twitter-dm', 'terminal'],
+    required: true,
+    example: 'twitter',
+    description: 'Platform where the bot command is executed',
+  })
+  platform?: Platform;
 }

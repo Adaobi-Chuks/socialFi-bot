@@ -250,7 +250,7 @@ export class ParseCommandService {
       } else if (intent.intent === 'CHECK_BALANCE ' && platform === 'twitter') {
         return `Please send me a direct Message  to check your account balance`;
       } else if (
-        intent.intent === 'CHECK_BALANCE ' &&
+        intent.intent === 'CHECK_BALANCE' &&
         platform === 'twitter-dm' &&
         user
       ) {
@@ -258,11 +258,19 @@ export class ParseCommandService {
           user.walletAddress,
         );
 
-        const formatedBalance = await this.formatBalances(
+        const formatedBalance = this.formatBalances(
           balance.formatted,
           balance.address,
         );
         return formatedBalance;
+      } else if (
+        intent.intent === 'EXPORT' &&
+        platform === 'twitter-dm' &&
+        user
+      ) {
+        const detail = await this.exportWallet(user);
+
+        return detail;
       } else if (intent.intent === 'UNKNOWN' && platform !== 'twitter-dm') {
         return;
       }
@@ -380,6 +388,18 @@ export class ParseCommandService {
     result += `${formattedAmount} - REEF\n`;
 
     return result.trim(); // remove last extra newline
+  }
+
+  async exportWallet(user: User) {
+    const decryptedEvmWallet = await this.walletService.decryptEvmWallet(
+      process.env.DYNAMIC_WALLET_SECRET!,
+      user.walletDetails,
+    );
+
+    return {
+      response: `‼️Never share your private key or seed phrase with anyone‼️\n For instruction on how to add the Reef Palegia network to you wallet, check out this page https://www.notion.so/reefchain/Reef-at-Web3Conf-Enugu-2757048bea5480cba429fb7b7d9a6f89?source=copy_link`,
+      wallet: `${decryptedEvmWallet.privateKey}`,
+    };
   }
 
   removeFirstMention(str: string): string {
