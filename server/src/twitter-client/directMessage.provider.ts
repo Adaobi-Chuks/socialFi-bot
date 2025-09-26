@@ -10,6 +10,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { ParseCommandService } from './parse-command';
 import { DirectMessage } from 'src/database/schemas/directMessage.schema';
+import { HttpService } from '@nestjs/axios';
 
 interface IDirectMessage {
   id: string;
@@ -27,6 +28,7 @@ export class TwitterClientDirectMessage {
   private readonly logger = new Logger(TwitterClientDirectMessage.name);
 
   constructor(
+    private readonly httpService: HttpService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly twitterClientBase: TwitterClientBase,
     private readonly parseBotCommandService: ParseCommandService,
@@ -115,12 +117,25 @@ export class TwitterClientDirectMessage {
 
   private async handleConversation(conversation: IDirectMessage) {
     try {
-      const defiResponse = await this.parseBotCommandService.handleTweetCommand(
-        conversation.text,
-        conversation.senderId,
-        conversation.senderScreenName,
-        'twitter-dm',
-      );
+      // const defiResponse = await this.parseBotCommandService.handleTweetCommand(
+      //   conversation.text,
+      //   conversation.senderId,
+      //   conversation.senderScreenName,
+      //   'twitter-dm',
+      // );
+
+      console.log(process.env.DEFI_PROCESSOR_API);
+      const defiResponse = await this.httpService.axiosRef
+        .post(`${process.env.DEFI_PROCESSOR_API}`, {
+          userId: conversation.senderId,
+          prompt: conversation.text,
+          platform: 'twitter-dm',
+        })
+        .then((res) => res.data)
+        .catch((err) => {
+          this.logger.error('Error processing tweet command:', err);
+          return "I'm sorry, I couldn't process your request at this time.";
+        });
 
       if (!defiResponse) {
         return;
@@ -136,10 +151,6 @@ export class TwitterClientDirectMessage {
       }
       console.log('this is response :', defiResponse);
 
-      // return await this.twitterClientBase.sendDirectMessage(
-      //   conversation.senderId,
-      //   defiResponse,
-      // );
       return await this.twitterClientBase.sendDirectMessage(
         conversation.senderId,
         defiResponse,

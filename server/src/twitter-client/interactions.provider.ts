@@ -13,6 +13,7 @@ import { Content, IMemory } from './interfaces/client.interface';
 import { ParseCommandService } from './parse-command';
 import { HttpService } from '@nestjs/axios';
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 const MAX_TWEET_LENGTH = 280;
 
@@ -213,6 +214,7 @@ export class TwitterClientInteractions {
       .post(`${process.env.DEFI_PROCESSOR_API}`, {
         userId: tweet.userId,
         prompt: tweet.text,
+        platform: 'twitter',
       })
       .then((res) => res.data)
       .catch((err) => {

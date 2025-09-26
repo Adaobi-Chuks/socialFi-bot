@@ -21,7 +21,7 @@ export class TwitterClientService {
       .catch((error) => {
         this.logger.error('Error initializing Twitter client:', error);
       });
-    // this.twitterClientInteractions.start();
+    this.twitterClientInteractions.start();
     this.twitterClientDirectMessage.start();
   }
 }
