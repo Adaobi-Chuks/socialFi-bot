@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -40,13 +39,11 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.use(cookieParser());
-
   app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
-    .setTitle('SEI-XFI')
-    .setDescription('sei xFi Server APIs')
+    .setTitle('reefly')
+    .setDescription('reefly Server APIs')
     .setVersion('1.0.0')
     .addServer(`http://localhost:${PORT}`, 'Local environment')
     .addServer(`https://api.xfibot.xyz/xfi/`, 'Production Server')

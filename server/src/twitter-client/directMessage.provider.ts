@@ -124,6 +124,15 @@ export class TwitterClientDirectMessage {
 
       if (!defiResponse) {
         return;
+      } else if (typeof defiResponse === 'object') {
+        await this.twitterClientBase.sendDirectMessage(
+          conversation.senderId,
+          defiResponse.response,
+        );
+        return await this.twitterClientBase.sendDirectMessage(
+          conversation.senderId,
+          defiResponse.wallet,
+        );
       }
       console.log('this is response :', defiResponse);
 
@@ -133,7 +142,7 @@ export class TwitterClientDirectMessage {
       // );
       return await this.twitterClientBase.sendDirectMessage(
         conversation.senderId,
-        'Welcome to reef xBot',
+        defiResponse,
       );
     } catch (error) {
       console.log(error);
