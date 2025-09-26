@@ -382,7 +382,7 @@ export class ParseCommandService {
 
   // to formate directMessge balance response
   private formatBalances(balance): string {
-    let result = `Balance: ${balance} REEF\n\n`;
+    let result = `Balance: ${this.formatReefBalance(balance)} REEF\n\n`;
     result += `Chain: Reef Pelagia\n`;
 
     console.log('my balance :', balance);
@@ -405,5 +405,27 @@ export class ParseCommandService {
 
   removeFirstMention(str: string): string {
     return str.replace(/^@\S+\s*/, '').trim();
+  }
+
+  formatReefBalance(
+    balance: string | number,
+    minDecimals = 4,
+    maxDecimals = 8,
+  ): string {
+    const num = Number(balance);
+
+    if (isNaN(num) || num === 0) return '0 ETH';
+
+    // Adjust precision dynamically
+    let decimals;
+    if (num >= 1) {
+      decimals = minDecimals; // e.g. 1.2345 ETH
+    } else if (num >= 0.0001) {
+      decimals = Math.min(maxDecimals, 6); // e.g. 0.000123 ETH
+    } else {
+      decimals = maxDecimals; // very tiny balance
+    }
+
+    return `${num.toFixed(decimals)}`;
   }
 }
